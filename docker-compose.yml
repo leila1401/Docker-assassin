@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+
+  spring-app-backend:
+    container_name: app-backend
+    image: app-backend:v1
+    ports:
+      - "8080:8080"
+    networks:
+      - spring-mysql
+    depends_on:
+      - mysql
+
+  mysql:
+    container_name: mysql
+    image: mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - mysql
+    restart: unless-stopped
+#     volumes:
+#       - mysql:/data/mysql
+    environment:
+      MYSQL_DATABASE: ems
+      MYSQL_USER: leila
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_HOST: '%'
+
+networks:
+  spring-mysql:
+    driver: bridge
+  mysql:
+    driver: bridge
+
+# volumes:
+#   mysql:
